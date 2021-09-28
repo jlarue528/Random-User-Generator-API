@@ -9,8 +9,8 @@ async function fetchUserData(url) {
     return data;
 }
 
-    fetchUserData('https://randomuser.me/api/?results=12')
-        .then(data => generateUserProfile(data));
+fetchUserData('https://randomuser.me/api/?results=12')
+    .then(data => generateUserProfile(data))
 
 /*
    Generate User Profile Gallery
@@ -19,11 +19,11 @@ async function fetchUserData(url) {
 const galleryDisplay = document.getElementById('gallery');
 function generateUserProfile (data) {
         const image = JSON.stringify(data.results[0].picture.medium);
-        const firstName = JSON.stringify(data.results[0].name.first);
-        const lastName = JSON.stringify(data.results[0].name.last);
-        const email = JSON.stringify(data.results[0].email);
-        const city = JSON.stringify(data.results[0].location.city);
-        const state = JSON.stringify(data.results[0].location.state);
+        const firstName = data.results[0].name.first;
+        const lastName = data.results[0].name.last;
+        const email = data.results[0].email;
+        const city = data.results[0].location.city;
+        const state = data.results[0].location.state;
         
         const  html = `
         <div class="card">
