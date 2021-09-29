@@ -11,31 +11,30 @@ async function fetchUserData(url) {
 
 
 fetchUserData('https://randomuser.me/api/?results=12')
-    .then( data => generateUserProfile(data))
-    .then( () => {
-        const userCards = document.querySelectorAll('.card');
+     .then(data => generateUserProfile(data.results))
+     .then( () => {
+         const userCards = document.querySelectorAll('.card');
 
-        userCards.forEach(card => {
-            card.addEventListener('click', generateUserModal);
-        });
-    });
+         userCards.forEach(card => {
+             card.addEventListener('click', generateUserModal);
 
+         });
+     });
 
 
 /*
    Generate User Profile Gallery
 */
 
-async function generateUserProfile (data) {
-    const results = data.results;
-
-    for(let i = 0; i < results.length; i++) {
-            const image = JSON.stringify(data.results[i].picture.medium);
-            const firstName = data.results[i].name.first;
-            const lastName = data.results[i].name.last;
-            const email = data.results[i].email;
-            const city = data.results[i].location.city;
-            const state = data.results[i].location.state;
+function generateUserProfile (data) {
+    
+    for(let i = 0; i < data.length; i++) {
+            const image = data[i].picture.medium;
+            const firstName = data[i].name.first;
+            const lastName = data[i].name.last;
+            const email = data[i].email;
+            const city = data[i].location.city;
+            const state = data[i].location.state;
 
             const  html = `
                 <div class="card">
@@ -66,12 +65,12 @@ function generateUserModal () {
         <div class="modal-container">
             <div class="modal">
                 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                <div class="modal-info-container">
-                    <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
+                    <div class="modal-info-container">
+                <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
                     <h3 id="name" class="modal-name cap">name</h3>
-                        <p class="modal-text">email</p>
-                        <p class="modal-text cap">city</p>
-                <hr>
+                    <p class="modal-text">email</p>
+                    <p class="modal-text cap">city</p>
+            <hr>
                     <p class="modal-text">(555) 555-5555</p>
                     <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
                     <p class="modal-text">Birthday: 10/21/2015</p>
@@ -85,3 +84,4 @@ function generateUserModal () {
 /*
     Event Handlers
 */
+
