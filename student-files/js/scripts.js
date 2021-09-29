@@ -11,16 +11,23 @@ async function fetchUserData(url) {
 
 
 fetchUserData('https://randomuser.me/api/?results=12')
-     .then(data => generateUserProfile(data.results))
-     .then( () => {
-         const userCards = document.querySelectorAll('.card');
+    .then(data => generateUserProfile(data.results))
+    .then( () => {
+            const userNames = document.querySelectorAll('#name');
+            const userImages = document.querySelectorAll('.card-img-container')
 
-         userCards.forEach(card => {
-             card.addEventListener('click', () => {
-                 generateUserModal();
+            userNames.forEach(userName => {
+                userName.addEventListener('click', async (e) => {
+                    generateUserModal();
+                });
+            });
+        
+            userImages.forEach(userImage => {
+                userImage.addEventListener('click', async (e) => {
+                    generateUserModal();
             });
         });
-     })
+    });
 
 
 /*
@@ -85,4 +92,5 @@ function generateUserModal () {
 /*
     Event Handlers
 */
+
 
