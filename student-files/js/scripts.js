@@ -9,17 +9,27 @@ async function fetchUserData(url) {
     return data;
 }
 
+
 fetchUserData('https://randomuser.me/api/?results=12')
-    .then(data => generateUserProfile(data));
+    .then( data => generateUserProfile(data))
+    .then( () => {
+        const userCards = document.querySelectorAll('.card');
+
+        userCards.forEach(card => {
+            card.addEventListener('click', generateUserModal);
+        });
+    });
+
+
 
 /*
    Generate User Profile Gallery
 */
 
-function generateUserProfile (data) {
-        const results = data.results;
-    
-        for(let i = 0; i < results.length; i++) {
+async function generateUserProfile (data) {
+    const results = data.results;
+
+    for(let i = 0; i < results.length; i++) {
             const image = JSON.stringify(data.results[i].picture.medium);
             const firstName = data.results[i].name.first;
             const lastName = data.results[i].name.last;
@@ -52,7 +62,6 @@ function generateUserModal () {
     const bodyElement = document.querySelector('body');
     const modalDiv = document.createElement('div');
     bodyElement.appendChild(modalDiv);
-    modalDiv.style.display = 'block';
     const modalHTML = `
         <div class="modal-container">
             <div class="modal">
@@ -70,13 +79,9 @@ function generateUserModal () {
         </div>
     `
     modalDiv.insertAdjacentHTML('beforeend', modalHTML);
+    modalDiv.style.display = 'block';
 }
 
 /*
     Event Handlers
 */
-
-const userCards = document.querySelectorAll('.card');
-userCards.onclick = function () {
-    generateUserModal();
-}
