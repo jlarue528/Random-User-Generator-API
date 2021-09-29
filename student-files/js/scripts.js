@@ -16,10 +16,11 @@ fetchUserData('https://randomuser.me/api/?results=12')
          const userCards = document.querySelectorAll('.card');
 
          userCards.forEach(card => {
-             card.addEventListener('click', generateUserModal);
-
-         });
-     });
+             card.addEventListener('click', () => {
+                 generateUserModal();
+            });
+        });
+     })
 
 
 /*
