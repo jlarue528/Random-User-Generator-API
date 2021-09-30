@@ -1,6 +1,38 @@
 
+/* 
+    Generating user profiles & User Modal
+*/ 
+
+generateUserProfiles('https://randomuser.me/api/?results=12')
+    .then(data => {  
+
+        //event listeners for newly created user profiles
+            
+        const userNames = document.querySelectorAll('#name');
+        userNames.forEach(userName => {
+            userName.addEventListener('click', (e) => {
+              const userNameSelected = e.target;
+              generateUserModal(data, userNameSelected);
+            });
+        });
+      
+        const userImages = document.querySelectorAll('.card-img');
+        userImages.forEach(userImage => {
+            userImage.addEventListener('click', (e) => {
+                const userImageSelected = e.target;
+                generateUserModal(data, userImageSelected);
+        });
+    });
+});
+
+
 /*
-    Fetch Requests
+    Helper Functions
+*/
+
+
+/*
+    Fetch Request Function
 */
 
 async function fetchUserData(url) {
@@ -10,31 +42,13 @@ async function fetchUserData(url) {
 }
 
 
-fetchUserData('https://randomuser.me/api/?results=12')
-    .then(data => generateUserProfile(data.results))
-    .then( () => {
-            const userNames = document.querySelectorAll('#name');
-            const userImages = document.querySelectorAll('.card-img-container')
-
-            userNames.forEach(userName => {
-                userName.addEventListener('click', async (e) => {
-                    generateUserModal();
-                });
-            });
-        
-            userImages.forEach(userImage => {
-                userImage.addEventListener('click', async (e) => {
-                    generateUserModal();
-            });
-        });
-    });
-
-
 /*
    Generate User Profile Gallery
 */
 
-function generateUserProfile (data) {
+async function generateUserProfiles (url) {
+    const userInfo = await fetchUserData(url);
+    const data = userInfo.results;
     
     for(let i = 0; i < data.length; i++) {
             const image = data[i].picture.medium;
@@ -59,13 +73,16 @@ function generateUserProfile (data) {
             const galleryDisplay = document.getElementById('gallery');
             galleryDisplay.insertAdjacentHTML('beforeend', html);
         }
+    return data
 }
 
 /*
     Generate User Modal
 */
 
-function generateUserModal () {
+async function generateUserModal (data, event) {
+    console.log(data)
+    console.log(event);
     const bodyElement = document.querySelector('body');
     const modalDiv = document.createElement('div');
     bodyElement.appendChild(modalDiv);
@@ -89,8 +106,4 @@ function generateUserModal () {
     modalDiv.style.display = 'block';
 }
 
-/*
-    Event Handlers
-*/
-
-
+//convert phone number function
