@@ -1,6 +1,6 @@
 
 /* 
-    Generating user profiles & User Modals
+    Generating employee directory gallery & employee modal
 */ 
 
 generateUserProfiles('https://randomuser.me/api/?results=12&nat=us')
@@ -15,15 +15,17 @@ generateUserProfiles('https://randomuser.me/api/?results=12&nat=us')
             });
         }
     });
-    
+
 /*
     Helper Functions
 */
 
-
-    /*
-        Fetch Request Function
-    */
+    /**
+        *   [Fetch function that converts call requests to json]
+ 	    *
+ 	    * @param {string} url - [url of the API you wish to fetch]
+        * @return {[promise]} [fetched API formatted in json]
+    **/
 
 async function fetchUserData(url) {
     const userDataResponse = await fetch(url);
@@ -31,11 +33,13 @@ async function fetchUserData(url) {
     return data;
 }
 
-
-    /*
-        Generate User Profile Gallery
-    */
-
+   /**
+        *   [Generates employee directory gallery]
+ 	    *
+ 	    * @param {[string]} url - [url of the API you wish to fetch]
+        * @return {[object]} [object with data parsed to show results of fetch]
+    **/
+    
 async function generateUserProfiles (url) {
     const userInfo = await fetchUserData(url);
     const data = userInfo.results;
@@ -66,11 +70,14 @@ async function generateUserProfiles (url) {
     return data
 }
 
-    /*
-        Generate User Modal
-    */
+    /**
+        *   [Generates user modal]
+ 	    *
+ 	    * @param {[object]} data - [object with employees' results listed]
+        * @param {[object]} userEventIndex - [object with selected employee's index]
+    **/
 
-async function generateUserModal (data, userEventIndex) {
+function generateUserModal (data, userEventIndex) {
     const userData = data[userEventIndex];
 
     const firstName = userData.name.first;
@@ -118,10 +125,12 @@ async function generateUserModal (data, userEventIndex) {
     closeModalButton.addEventListener('click', closeModal);
 }
 
-
-    /*
-        convert phone number function
-    */
+   /**
+        *   [Converts phone number to proper format]
+ 	    *
+ 	    * @param {[string]} userPhoneNumber - [phone number that needs to be converted]
+        * @returns {[string]} [returns phone number in proper formatting]
+    **/
 
 function convertPhoneNumber(userPhoneNumber) {
         const onlyNumericString = userPhoneNumber.replace(/[^0-9]/g, "");
@@ -134,9 +143,12 @@ function convertPhoneNumber(userPhoneNumber) {
         return properCellNumber;
 }
 
-    /*
-        convert birthday date function
-    */
+   /**
+        *   [Converts birth date to proper format]
+ 	    *
+ 	    * @param {[string]} userBirthday - [birth date that needs to be converted]
+        * @returns {[string]} [returns birth date in proper formatting]
+    **/
 
 function birthdayFormatConverter (userBirthday) {
     const birthDate = userBirthday.substring(0, 10);
