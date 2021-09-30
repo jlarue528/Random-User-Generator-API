@@ -123,6 +123,9 @@ async function generateUserModal (data, userEventIndex) {
     `
     modalDiv.insertAdjacentHTML('beforeend', modalHTML);
     modalDiv.style.display = 'block';
+
+    const closeModalButton = document.getElementById('modal-close-btn');
+    closeModalButton.onclick = () => modalDiv.style.display = 'none';
 }
 
     /*
@@ -139,7 +142,6 @@ function convertPhoneNumber(userPhoneNumber) {
 
         return properCellNumber;
 }
-
 
     /*
         convert birthday date function
