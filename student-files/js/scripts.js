@@ -3,7 +3,7 @@
     Generating user profiles & User Modal
 */ 
 
-generateUserProfiles('https://randomuser.me/api/?results=12')
+generateUserProfiles('https://randomuser.me/api/?results=12&nat=us')
     .then(data => {  
 
         //event listeners for newly created user profiles
@@ -31,9 +31,9 @@ generateUserProfiles('https://randomuser.me/api/?results=12')
 */
 
 
-/*
-    Fetch Request Function
-*/
+    /*
+        Fetch Request Function
+    */
 
 async function fetchUserData(url) {
     const userDataResponse = await fetch(url);
@@ -42,9 +42,9 @@ async function fetchUserData(url) {
 }
 
 
-/*
-   Generate User Profile Gallery
-*/
+    /*
+        Generate User Profile Gallery
+    */
 
 async function generateUserProfiles (url) {
     const userInfo = await fetchUserData(url);
@@ -76,9 +76,9 @@ async function generateUserProfiles (url) {
     return data
 }
 
-/*
-    Generate User Modal
-*/
+    /*
+        Generate User Modal
+    */
 
 async function generateUserModal (data, userEventIndex) {
     const userData = data[userEventIndex];
@@ -88,12 +88,19 @@ async function generateUserModal (data, userEventIndex) {
     const image = userData.picture.thumbnail;
     const email = userData.email;
     const city = userData.location.city;
-    const phoneNumber = userData.phone;
+    const cellNumber = userData.cell;
     const streetNumber = userData.location.street.number;
     const streetName = userData.location.street.name;
     const state = userData.location.state;
     const postCode = userData.location.postcode; 
     const birthday = userData.dob.date;
+
+    // Formatting birthday variable 
+    const properBirthday = birthdayFormatConverter(birthday);
+
+    // Formatting cell number
+    const properCellNumber = convertPhoneNumber(cellNumber);
+
 
     const bodyElement = document.querySelector('body');
     const modalDiv = document.createElement('div');
@@ -108,9 +115,9 @@ async function generateUserModal (data, userEventIndex) {
                     <p class="modal-text">${email}</p>
                     <p class="modal-text cap">${city}</p>
             <hr>
-                    <p class="modal-text">${phoneNumber}</p>
+                    <p class="modal-text">${properCellNumber}</p>
                     <p class="modal-text">${streetNumber} ${streetName}, ${city}, ${state} ${postCode}</p>
-                    <p class="modal-text">Birthday: ${birthday}</p>
+                    <p class="modal-text">Birthday: ${properBirthday}</p>
             </div>
         </div>
     `
@@ -118,8 +125,35 @@ async function generateUserModal (data, userEventIndex) {
     modalDiv.style.display = 'block';
 }
 
-//convert phone number function
+    /*
+        convert phone number function
+    */
 
-//convert state into abbreviated state
+function convertPhoneNumber(userPhoneNumber) {
+        const onlyNumericString = userPhoneNumber.replace(/[^0-9]/g, "");
 
-//convert phone number
+        const areaCode = onlyNumericString.slice(0, 3);
+        const cellPart1 = onlyNumericString.slice(3, 6);
+        const cellPart2 = onlyNumericString.slice(6, 10);
+        const properCellNumber = `(${areaCode}) ${cellPart1}-${cellPart2}`;
+
+        return properCellNumber;
+}
+
+
+    /*
+        convert birthday date function
+    */
+
+function birthdayFormatConverter (userBirthday) {
+    const birthDate = userBirthday.substring(0, 10);
+    const acceptableDateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
+    const status = acceptableDateFormat.test(birthDate);
+    if(!status) {
+        const convertedDate = new Date(birthDate).toLocaleDateString(
+            "en-US", { month: "2-digit", day: "2-digit", year: "numeric"})
+        return convertedDate
+    } else {
+        return birthDate
+    }
+}
