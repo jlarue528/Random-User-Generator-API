@@ -1,31 +1,21 @@
 
 /* 
-    Generating user profiles & User Modal
+    Generating user profiles & User Modals
 */ 
 
 generateUserProfiles('https://randomuser.me/api/?results=12&nat=us')
     .then(data => {  
 
-        //event listeners for newly created user profiles
-
-        const userNames = document.querySelectorAll('#name');
-        for(let i = 0; i < userNames.length; i++) {
-            userNames[i].addEventListener('click', (e) => {
-                const userEventIndex = [i];
-                generateUserModal(data, userEventIndex);
-            });
-        }
-
-        const userImages = document.querySelectorAll('.card-img');
-        for(let i = 0; i < userImages.length; i++) {
-            userImages[i].addEventListener('click', (e) => {
+        //event listener for newly created user profiles
+        const userProfiles = document.querySelectorAll('.card');
+        for(let i = 0; i < userProfiles.length; i++) {
+            userProfiles[i].addEventListener('click', (e) => {
                 const userEventIndex = [i];
                 generateUserModal(data, userEventIndex);
             });
         }
     });
-
-
+    
 /*
     Helper Functions
 */
@@ -125,8 +115,9 @@ async function generateUserModal (data, userEventIndex) {
     modalDiv.style.display = 'block';
 
     const closeModalButton = document.getElementById('modal-close-btn');
-    closeModalButton.onclick = () => modalDiv.style.display = 'none';
+    closeModalButton.addEventListener('click', closeModal);
 }
+
 
     /*
         convert phone number function
@@ -151,6 +142,7 @@ function birthdayFormatConverter (userBirthday) {
     const birthDate = userBirthday.substring(0, 10);
     const acceptableDateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
     const status = acceptableDateFormat.test(birthDate);
+   
     if(!status) {
         const convertedDate = new Date(birthDate).toLocaleDateString(
             "en-US", { month: "2-digit", day: "2-digit", year: "numeric"})
@@ -158,4 +150,9 @@ function birthdayFormatConverter (userBirthday) {
     } else {
         return birthDate
     }
+}
+
+function closeModal () {
+    const div = document.querySelector('.modal-container');
+    div.style.display = 'none';
 }
