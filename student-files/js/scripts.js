@@ -7,23 +7,23 @@ generateUserProfiles('https://randomuser.me/api/?results=12')
     .then(data => {  
 
         //event listeners for newly created user profiles
-            
+
         const userNames = document.querySelectorAll('#name');
-        userNames.forEach(userName => {
-            userName.addEventListener('click', (e) => {
-              const userNameSelected = e.target;
-              generateUserModal(data, userNameSelected);
+        for(let i = 0; i < userNames.length; i++) {
+            userNames[i].addEventListener('click', (e) => {
+                const userEventIndex = [i];
+                generateUserModal(data, userEventIndex);
             });
-        });
-      
+        }
+
         const userImages = document.querySelectorAll('.card-img');
-        userImages.forEach(userImage => {
-            userImage.addEventListener('click', (e) => {
-                const userImageSelected = e.target;
-                generateUserModal(data, userImageSelected);
-        });
+        for(let i = 0; i < userImages.length; i++) {
+            userImages[i].addEventListener('click', (e) => {
+                const userEventIndex = [i];
+                generateUserModal(data, userEventIndex);
+            });
+        }
     });
-});
 
 
 /*
@@ -80,9 +80,21 @@ async function generateUserProfiles (url) {
     Generate User Modal
 */
 
-async function generateUserModal (data, event) {
-    console.log(data)
-    console.log(event);
+async function generateUserModal (data, userEventIndex) {
+    const userData = data[userEventIndex];
+
+    const firstName = userData.name.first;
+    const lastName = userData.name.last;
+    const image = userData.picture.thumbnail;
+    const email = userData.email;
+    const city = userData.location.city;
+    const phoneNumber = userData.phone;
+    const streetNumber = userData.location.street.number;
+    const streetName = userData.location.street.name;
+    const state = userData.location.state;
+    const postCode = userData.location.postcode; 
+    const birthday = userData.dob.date;
+
     const bodyElement = document.querySelector('body');
     const modalDiv = document.createElement('div');
     bodyElement.appendChild(modalDiv);
@@ -91,14 +103,14 @@ async function generateUserModal (data, event) {
             <div class="modal">
                 <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
                     <div class="modal-info-container">
-                <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-                    <h3 id="name" class="modal-name cap">name</h3>
-                    <p class="modal-text">email</p>
-                    <p class="modal-text cap">city</p>
+                <img class="modal-img" src="${image}" alt="profile picture">
+                    <h3 id="name" class="modal-name cap">${firstName} ${lastName}</h3>
+                    <p class="modal-text">${email}</p>
+                    <p class="modal-text cap">${city}</p>
             <hr>
-                    <p class="modal-text">(555) 555-5555</p>
-                    <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                    <p class="modal-text">Birthday: 10/21/2015</p>
+                    <p class="modal-text">${phoneNumber}</p>
+                    <p class="modal-text">${streetNumber} ${streetName}, ${city}, ${state} ${postCode}</p>
+                    <p class="modal-text">Birthday: ${birthday}</p>
             </div>
         </div>
     `
@@ -107,3 +119,7 @@ async function generateUserModal (data, event) {
 }
 
 //convert phone number function
+
+//convert state into abbreviated state
+
+//convert phone number
