@@ -164,7 +164,11 @@ function birthdayFormatConverter (userBirthday) {
     }
 }
 
+    /**
+        *   [Closes Modal]
+    **/
+
 function closeModal () {
     const div = document.querySelector('.modal-container');
-    div.style.display = 'none';
+    div.remove();
 }
