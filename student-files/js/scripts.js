@@ -82,7 +82,7 @@ function generateUserModal (data, userEventIndex) {
 
     const firstName = userData.name.first;
     const lastName = userData.name.last;
-    const image = userData.picture.thumbnail;
+    const image = userData.picture.large;
     const email = userData.email;
     const city = userData.location.city;
     const cellNumber = userData.cell;
